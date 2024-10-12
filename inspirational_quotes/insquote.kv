@@ -1,0 +1,75 @@
+<MyRoot>:
+    insquote_label: insquote_label
+    insquote_author: insquote_author
+    insquote_image: insquote_image
+
+    FloatLayout:
+        # Close Button in the top right corner
+        Button:
+            text: "Close"
+            size_hint: None, None
+            size: 80, 30
+            pos_hint: {"right": 1, "top": 1}
+            on_press: app.stop()
+
+        # Main content area
+        BoxLayout:
+            orientation: "vertical"
+            size_hint: (1, None)
+            height: self.minimum_height  # Adjusts based on the children
+            pos_hint: {"center_x": 0.5, "center_y": 0.5}  # Center it in the FloatLayout
+
+            # Image at the top with fixed height
+            AsyncImage:
+                id: insquote_image
+                size_hint: (1, None)
+                height: 400  # Fixed height for the image
+                allow_stretch: True  # Allow the image to stretch
+
+            # Quote label underneath the image
+            Label:
+                id: insquote_label
+                text: "-"
+                font_size: 30
+                text_size: self.width, None
+                halign: 'center'
+                valign: 'middle'
+                size_hint_y: None
+                height: self.texture_size[1]  # Set height based on the text
+                padding: 10  # Add some padding
+
+            # Author label underneath the quote
+            Label:
+                id: insquote_author
+                text: "-"
+                font_size: 20
+                halign: 'center'
+                size_hint_y: None
+                height: self.texture_size[1]  # Set height based on the text
+                padding: 10  # Add some padding
+
+        # Button layout inside FloatLayout to center the buttons horizontally
+        FloatLayout:
+            size_hint_y: None
+            height: 50
+            pos_hint: {"center_x": 0.5, "y": 0.05}  # Centering the button layout
+
+            BoxLayout:
+                orientation: "horizontal"
+                size_hint: None, None
+                width: 220  # Total width for both buttons
+                pos_hint: {"center_x": 0.5}  # Center the button layout horizontally
+
+                Button:
+                    text: "Again"
+                    font_size: 28
+                    size_hint: None, None
+                    size: 70, 40
+                    on_press: root.speak_quote_again(root.insquote_label.text, root.insquote_author.text)
+
+                Button:
+                    text: "Next"
+                    font_size: 28
+                    size_hint: None, None
+                    size: 70, 40
+                    on_press: root.generate_quote()
